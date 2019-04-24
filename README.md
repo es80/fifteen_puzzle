@@ -9,8 +9,7 @@ solutions.
 
 The code started from a solution to a
 [problem set](https://docs.cs50.net/problems/fifteen/fifteen.html) from the
-Harvard edX [CS50 Introduction to Computer Science course]
-(https://www.edx.org/course/cs50s-introduction-to-computer-science) and borrows
+Harvard edX [CS50 Introduction to Computer Science course](https://www.edx.org/course/cs50s-introduction-to-computer-science) and borrows
 a small amount of ncurses code from a related
 [problem set](http://cdn.cs50.net/2011/fall/psets/4/pset4.pdf).
 
