@@ -69,6 +69,9 @@ search](https://en.wikipedia.org/wiki/Iterative_deepening_A*) using additive
 pattern database heuristics. Explanations and references are given in the
 source code.
 
+Most random puzzles will be solved in around a second but some puzzles may require 
+more time. For example the standard configuration takes at least a minute.
+
 ## Standalone 4x4 Solver
 
 The 4x4 solver can also be used as a standalone program which simply reads a
