@@ -284,8 +284,7 @@ void slide(char direction)
     if (p.puzzle_state == GOD_MODE)
     {
         refresh();
-        //napms(200);
-        napms(10);
+        napms(100);
         draw_board();
     }
 }
@@ -346,8 +345,7 @@ void slide_tile(int tile)
     if (p.puzzle_state == GOD_MODE)
     {
         refresh();
-        //napms(200);
-        napms(10);
+        napms(100);
         draw_board();
     }
 }
