@@ -36,6 +36,9 @@ will change the dimensions of the puzzle between 2x2 and 9x9. Pressing 'g'
 calls 'God mode' in which the solver takes over to complete the remainder of
 the puzzle.
 
+### Screenshot
+
+![Fifteen screenshot](/fifteen_screenshot.png?raw=true)
 
 ## Optimal Solutions
 
