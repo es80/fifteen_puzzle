@@ -336,11 +336,19 @@ uint8_t *load_dim4_heuristics(void)
     FILE *fp = fopen(DIM4_HEURISTICS_FILE, "rb");
     if (!fp)
     {
+        if (dim4_array)
+        {
+            free(dim4_array);
+        }
         return NULL;
     }
 
     if (fread(dim4_array, TOTAL_STATES, 1, fp) != 1)
     {
+        if (dim4_array)
+        {
+            free(dim4_array);
+        }
         fclose(fp);
         return NULL;
     }

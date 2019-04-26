@@ -442,11 +442,19 @@ uint8_t *load_dim3_solutions(void)
     FILE *fp = fopen(DIM3_SOLUTIONS_FILE, "rb");
     if (!fp)
     {
+        if (dim3_array)
+        {
+            free(dim3_array);
+        }
         return NULL;
     }
 
     if (fread(dim3_array, DIM3_NUM_BOARDS, 1, fp) != 1)
     {
+        if (dim3_array)
+        {
+            free(dim3_array);
+        }
         fclose(fp);
         return NULL;
     }

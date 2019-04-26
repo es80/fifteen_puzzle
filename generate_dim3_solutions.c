@@ -144,6 +144,7 @@ int main(void)
 
     // We can now define a front and back for a queue of nodes and enqueue the
     // root node.
+    root->next = NULL;
     node *front = root;
     node *back = root;
     // Then we mark this node as seen by storing the last tile moved in
