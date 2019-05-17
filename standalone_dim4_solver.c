@@ -88,7 +88,7 @@ int get_heurisitic(uint8_t *dim4_array, int board[DIM4_NUM_TILES]);
  * greater than or equal to 0 and less than 16^n, where n is the number of
  * tiles in the pattern.
  */
-int arr_index(int board[DIM4_NUM_TILES], tile_pattern pattern);
+int arr_index(int board[DIM4_NUM_TILES], tile_pattern pattern, bool reflected);
 
 /*
  * Returns true if and only if the puzzle represented by board is solved.
@@ -211,21 +211,30 @@ bool dim4_solver(uint8_t *dim4_array, int board[DIM4_NUM_TILES])
         }
     }
 
-    // Print the number of moves and the moves themselves to solve the puzzle.
+    // Print the number of moves and optionally the moves themselves required
+    // to solve the puzzle.
+    bool print_moves = true;
     if (is_solved(root->board))
     {
-        printf("%i moves: ", root->num_moves);
+        if (print_moves)
+        {
+            printf("%i moves: ", root->num_moves);
+            for (int i = 0; i < root->num_moves; i++)
+            {
+                printf("%i ", root->moves[i]);
+            }
+            printf("\n");
+        }
+        else
+        {
+            printf("%i\n", root->num_moves);
+        }
     }
     else
     {
         printf("Error!\n");
         return false;
     }
-    for (int i = 0; i < root->num_moves; i++)
-    {
-        printf("%i ", root->moves[i]);
-    }
-    printf("\n");
 
     free(root);
 
@@ -357,19 +366,33 @@ uint8_t *load_dim4_heuristics(void)
 }
 
 /*
- * For a given board of tiles, retrieves the heuristic for that board from the
+ * For a given board of tiles, retrieves a heuristic for that board from the
  * array of heuristic values.
  */
 int get_heurisitic(uint8_t *dim4_array, int board[DIM4_NUM_TILES])
 {
     int index;
     int heuristic = 0;
+    int reflected_heuristic = 0;
     // Sum the heuristic values for each pattern.
     for (int i = 0; i < NUM_PATTERNS; i++)
     {
-        index = arr_index(board, patterns[i]);
+        // First get the normal heuristic.
+        index = arr_index(board, patterns[i], false);
         heuristic += dim4_array[index + patterns[i].array_offset];
+
+        // Now calculate the heuristic for the board reflected about the main
+        // diagonal.
+        index = arr_index(board, patterns[i], true);
+        reflected_heuristic += dim4_array[index + patterns[i].array_offset];
     }
+
+    // Take the maximum of the two heuristics.
+    if (heuristic < reflected_heuristic)
+    {
+        heuristic = reflected_heuristic;
+    }
+
     return heuristic;
 }
 
@@ -379,21 +402,46 @@ int get_heurisitic(uint8_t *dim4_array, int board[DIM4_NUM_TILES])
  * greater than or equal to 0 and less than 16^n, where n is the number of
  * tiles in the pattern.
  */
-int arr_index(int board[DIM4_NUM_TILES], tile_pattern pattern)
+int arr_index(int board[DIM4_NUM_TILES], tile_pattern pattern, bool reflected)
 {
     int index = 0;
     int k = 1;
-    for (int i = 0; i < pattern.num_tiles; i++)
+
+    if (reflected)
     {
-        for (int j = 0; j < DIM4_NUM_TILES; j++)
+        for (int i = 0; i < pattern.num_tiles; i++)
         {
-            if (pattern.tiles[i] == board[j])
+            for (int j = 0; j < DIM4_NUM_TILES; j++)
             {
-                index += j * k;
-                k *= DIM4_NUM_TILES;
+                // If we are computed a heuristic for the board reflected along
+                // its main diagonal we use the corresponding reflected patten
+                // and must compute the location of the tile under the
+                // reflection to get the index to lookup.
+                if (pattern.reflected_tiles[i] == board[j])
+                {
+                    index += (DIM4 * j - ((DIM4_NUM_TILES - 1) * (j / DIM4))) * k;
+                    k *= DIM4_NUM_TILES;
+                    break;
+                }
             }
         }
     }
+    else
+    {
+        for (int i = 0; i < pattern.num_tiles; i++)
+        {
+            for (int j = 0; j < DIM4_NUM_TILES; j++)
+            {
+                if (pattern.tiles[i] == board[j])
+                {
+                    index += j * k;
+                    k *= DIM4_NUM_TILES;
+                    break;
+                }
+            }
+        }
+    }
+
     return index;
 }
 

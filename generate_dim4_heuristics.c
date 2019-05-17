@@ -102,6 +102,22 @@
  * space are best when excluding the empty tile from the patterns and using
  * sparse storage.
  *
+ * When solving puzzles we can speed up the solver considerably by noting that
+ * the heuristic values calculated would also be valid heuristic values for the
+ * same pattern shapes but reflected around the main diagonal. For example the
+ * heuristic values for the pattern
+ *                 1  x  x  x
+ *                 5  6  x  x
+ *                 9 10  x  x
+ *                13  x  x  x
+ * also work for the pattern
+ *                 1  2  3  4
+ *                 x  6  7  x
+ *                 x  x  x  x
+ *                 x  x  x  x
+ * Thus for a particular puzzle state we can look up two heuristic values and
+ * use the maximum of the two to guide the search.
+ *
  * Constants for the particular tile patterns used are given in 'dim4.h' and
  * the database this program produces is saved as 'dim4_heuristics.bin'.
  *

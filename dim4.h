@@ -11,9 +11,28 @@
 // Constants for a 6,6,3 tile pattern database.
 #define NUM_PATTERNS 3
 
+/*
+ * Visual reference to tiles for getting the patterns correct.
+ *  1  2  3  4
+ *  5  6  7  8
+ *  9 10 11 12
+ * 13 14 15  0
+ *
+ * Reflected tiles.
+ *  1  5  9 13
+ *  2  6 10 14
+ *  3  7 11 15
+ *  4  8 12  0
+ */
+
 #define PATTERN_0 1,5,6,9,10,13
 #define PATTERN_1 7,8,11,12,14,15
 #define PATTERN_2 2,3,4
+
+// The same pattern shapes but on the reflected tiles.
+#define REF_PATTERN_0 1,2,6,3,7,4
+#define REF_PATTERN_1 10,14,11,15,8,12
+#define REF_PATTERN_2 5,9,13
 
 #define PATTERN_0_LEN 6
 #define PATTERN_1_LEN 6
@@ -30,16 +49,18 @@
 typedef struct
 {
     int tiles[DIM4_NUM_TILES];
+    int reflected_tiles[DIM4_NUM_TILES];
     int num_tiles;
-    int array_offset;
+    long long array_offset;
 }
 tile_pattern;
 
-// An array for all 3 patterns.
-const tile_pattern patterns[NUM_PATTERNS] = {
-  {{PATTERN_0}, PATTERN_0_LEN, PATTERN_0_ARRAY_OFFSET},
-  {{PATTERN_1}, PATTERN_1_LEN, PATTERN_1_ARRAY_OFFSET},
-  {{PATTERN_2}, PATTERN_2_LEN, PATTERN_2_ARRAY_OFFSET},};
+// An array for all 3 patterns and their reflections along the main diagonal.
+const tile_pattern patterns[] = {
+  {{PATTERN_0}, {REF_PATTERN_0}, PATTERN_0_LEN, PATTERN_0_ARRAY_OFFSET},
+  {{PATTERN_1}, {REF_PATTERN_1}, PATTERN_1_LEN, PATTERN_1_ARRAY_OFFSET},
+  {{PATTERN_2}, {REF_PATTERN_2}, PATTERN_2_LEN, PATTERN_2_ARRAY_OFFSET},
+  };
 
 // We initialize an array to store the valid moves available for each
 // possible position on the board of the empty tile. Picturing the board in two

@@ -69,10 +69,11 @@ heuristic values `dim4_heuristics.bin` to aid the solver.
 The optimal solver for 4x4 puzzles works by employing an [iterative deepening A*
 search](https://en.wikipedia.org/wiki/Iterative_deepening_A*) using additive
 pattern database heuristics. Explanations and references are given in the
-source code.
+source code, mostly in generate_dim4_heuristics.c.
 
-Most random puzzles will be solved in around a second but some puzzles may require 
-more time. For example the standard configuration takes at least a minute.
+Most random puzzles will be solved in around a second but some puzzles may
+require more time. For example the standard configuration takes around twenty
+seconds on my machine.
 
 ## Standalone 4x4 Solver
 
@@ -86,4 +87,7 @@ $ ./standalone_dim4_solver
 9 10 11 13 3 0 2 14 15 5 4 7 6 8 12 1
 60 moves: 2 14 13 11 10 2 14 13 7 1 12 8 6 15 3 14 13 4 1 7 4 1 5 3 14 13 3 6 15 14 13 9 2 3 1 5 8 15 14 13 9 1 5 10 11 4 7 8 10 11 3 2 1 5 6 10 11 7 8 12
 ```
+
+The files in the sample_4x4_puzzles_and_solutions directory can be used for
+testing this program.
 
